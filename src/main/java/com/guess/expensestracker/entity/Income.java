@@ -78,6 +78,11 @@ public class Income implements Serializable {
         this.updatedDate = updatedDate;
     }
 
+    public void setInitialDate(Date currentDate) {
+        this.setCreatedDate(currentDate);
+        this.setUpdatedDate(currentDate);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
