@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class DefaultCategoryService implements CategoryService {
 
-    private final Logger log = LoggerFactory.getLogger(CategoryResource.class);
+    private final Logger log = LoggerFactory.getLogger(DefaultCategoryService.class);
 
     @Autowired
     private CategoryRepository categoryRepository;
