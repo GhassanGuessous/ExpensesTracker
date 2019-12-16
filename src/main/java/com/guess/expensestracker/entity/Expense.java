@@ -30,14 +30,6 @@ public class Expense implements Serializable {
     public Expense() {
     }
 
-    public Expense(String note, Double amount, Date createdDate, Date updatedDate, Category category) {
-        this.note = note;
-        this.amount = amount;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-        this.category = category;
-    }
-
     public Long getId() {
         return id;
     }
@@ -66,16 +58,31 @@ public class Expense implements Serializable {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
     public Date getUpdatedDate() {
         return updatedDate;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public void setInitialDate(Date currentDate) {
+        if(this.id == null) {
+            this.setCreatedDate(currentDate);
+        }
+        this.setUpdatedDate(currentDate);
     }
 
     @Override
