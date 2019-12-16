@@ -79,7 +79,9 @@ public class Income implements Serializable {
     }
 
     public void setInitialDate(Date currentDate) {
-        this.setCreatedDate(currentDate);
+        if(this.id == null) {
+            this.setCreatedDate(currentDate);
+        }
         this.setUpdatedDate(currentDate);
     }
 
