@@ -25,7 +25,7 @@ public class ExpenseResource {
     private ExpenseService expenseService;
 
     @PostMapping("/expenses")
-    ResponseEntity<Expense> createIncome(@RequestBody Expense expense) {
+    public ResponseEntity<Expense> createIncome(@RequestBody Expense expense) {
         log.debug("REST request to save Expense : {}", expense);
         if(expense.getId() != null) {
             throw new BadRequestAlertException("A new expense cannot have already an Id!", ENTITY_NAME);
@@ -35,7 +35,7 @@ public class ExpenseResource {
     }
 
     @PutMapping("/expenses")
-    ResponseEntity<Expense> updateIncome(@RequestBody Expense expense) {
+    public ResponseEntity<Expense> updateIncome(@RequestBody Expense expense) {
         log.debug("REST request to update Expense : {}", expense);
         if(expense.getId() == null) {
             throw new BadRequestAlertException("Invalid Id!", ENTITY_NAME);
@@ -45,14 +45,14 @@ public class ExpenseResource {
     }
 
     @GetMapping("/expenses")
-    ResponseEntity<List<Expense>> getAllIncomes() {
+    public ResponseEntity<List<Expense>> getAllIncomes() {
         log.debug("REST request to get all expenses");
         List<Expense> expenses = expenseService.findAll();
         return ResponseEntity.ok().body(expenses);
     }
 
     @GetMapping("/expenses/{id}")
-    ResponseEntity<Expense> getIncome(@PathVariable Long id) {
+    public ResponseEntity<Expense> getIncome(@PathVariable Long id) {
         log.debug("REST request to get Expense : {}", id);
         Optional<Expense> expense = expenseService.findOne(id);
         if(expense.isPresent()) {
@@ -63,7 +63,7 @@ public class ExpenseResource {
     }
 
     @DeleteMapping("/expenses/{id}")
-    ResponseEntity<Void> deleteIncome(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteIncome(@PathVariable Long id) {
         log.debug("REST request to delete Expense : {}", id);
         expenseService.delete(id);
         return ResponseEntity.ok().build();

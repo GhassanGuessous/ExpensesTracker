@@ -25,7 +25,7 @@ public class IncomeResource {
     private IncomeService incomeService;
 
     @PostMapping("/incomes")
-    ResponseEntity<Income> createIncome(@RequestBody Income income) {
+    public ResponseEntity<Income> createIncome(@RequestBody Income income) {
         log.debug("REST request to save Income : {}", income);
         if(income.getId() != null) {
             throw new BadRequestAlertException("A new income cannot have already an Id!", ENTITY_NAME);
@@ -35,7 +35,7 @@ public class IncomeResource {
     }
 
     @PutMapping("/incomes")
-    ResponseEntity<Income> updateIncome(@RequestBody Income income) {
+    public ResponseEntity<Income> updateIncome(@RequestBody Income income) {
         log.debug("REST request to update Income : {}", income);
         if(income.getId() == null) {
             throw new BadRequestAlertException("Invalid Id!", ENTITY_NAME);
@@ -45,14 +45,14 @@ public class IncomeResource {
     }
 
     @GetMapping("/incomes")
-    ResponseEntity<List<Income>> getAllIncomes() {
+    public ResponseEntity<List<Income>> getAllIncomes() {
         log.debug("REST request to get all incomes");
         List<Income> incomes = incomeService.findAll();
         return ResponseEntity.ok().body(incomes);
     }
 
     @GetMapping("/incomes/{id}")
-    ResponseEntity<Income> getIncome(@PathVariable Long id) {
+    public ResponseEntity<Income> getIncome(@PathVariable Long id) {
         log.debug("REST request to get Income : {}", id);
         Optional<Income> income = incomeService.findOne(id);
         if(income.isPresent()) {
@@ -63,7 +63,7 @@ public class IncomeResource {
     }
 
     @DeleteMapping("/incomes/{id}")
-    ResponseEntity<Void> deleteIncome(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteIncome(@PathVariable Long id) {
         log.debug("REST request to delete Income : {}", id);
         incomeService.delete(id);
         return ResponseEntity.ok().build();
