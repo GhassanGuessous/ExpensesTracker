@@ -3,7 +3,6 @@ package com.guess.expensestracker.service.impl;
 import com.guess.expensestracker.entity.Category;
 import com.guess.expensestracker.repository.CategoryRepository;
 import com.guess.expensestracker.service.CategoryService;
-import com.guess.expensestracker.web.rest.CategoryResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

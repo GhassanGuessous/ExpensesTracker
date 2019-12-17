@@ -24,7 +24,7 @@ public class CategoryResource {
     private CategoryService categoryService;
 
     @PostMapping("/categories")
-    ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         log.debug("REST request to save Category : {}", category);
         if(category.getId() != null) {
             throw new BadRequestAlertException("A new category cannot have already an Id!", ENTITY_NAME);
@@ -34,7 +34,7 @@ public class CategoryResource {
     }
 
     @PutMapping("/categories")
-    ResponseEntity<Category> updateCategory(@RequestBody Category category) {
+    public ResponseEntity<Category> updateCategory(@RequestBody Category category) {
         log.debug("REST request to update Category : {}", category);
         if(category.getId() == null) {
             throw new BadRequestAlertException("Invalid Id!", ENTITY_NAME);
@@ -44,14 +44,14 @@ public class CategoryResource {
     }
 
     @GetMapping("/categories")
-    ResponseEntity<List<Category>> getAllCategories() {
+    public ResponseEntity<List<Category>> getAllCategories() {
         log.debug("REST request to get all categories");
         List<Category> categories = categoryService.findAll();
         return ResponseEntity.ok().body(categories);
     }
 
     @GetMapping("/categories/{id}")
-    ResponseEntity<Category> getCategory(@PathVariable Long id) {
+    public ResponseEntity<Category> getCategory(@PathVariable Long id) {
         log.debug("REST request to get Category : {}", id);
         Optional<Category> category = categoryService.findOne(id);
         if(category.isPresent()) {
@@ -62,7 +62,7 @@ public class CategoryResource {
     }
 
     @DeleteMapping("/categories/{id}")
-    ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         log.debug("REST request to delete Category : {}", id);
         categoryService.delete(id);
         return ResponseEntity.ok().build();
