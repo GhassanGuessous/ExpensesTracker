@@ -3,12 +3,16 @@ package com.guess.expensestracker.web.rest;
 import com.guess.expensestracker.entity.Category;
 import com.guess.expensestracker.service.CategoryService;
 import com.guess.expensestracker.web.rest.errors.BadRequestAlertException;
+import com.guess.expensestracker.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,17 +24,22 @@ public class CategoryResource {
 
     private static final String ENTITY_NAME = "category";
 
-    @Autowired
     private CategoryService categoryService;
 
+    public CategoryResource(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
     @PostMapping("/categories")
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    public ResponseEntity<Category> createCategory(@RequestBody Category category) throws URISyntaxException {
         log.debug("REST request to save Category : {}", category);
         if(category.getId() != null) {
             throw new BadRequestAlertException("A new category cannot have already an Id!", ENTITY_NAME);
         }
         Category result = categoryService.save(category);
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.created(new URI("/api/categories/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     @PutMapping("/categories")
