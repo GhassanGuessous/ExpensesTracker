@@ -3,13 +3,15 @@ package com.guess.expensestracker.web.rest;
 import com.guess.expensestracker.entity.Income;
 import com.guess.expensestracker.service.IncomeService;
 import com.guess.expensestracker.web.rest.errors.BadRequestAlertException;
+import com.guess.expensestracker.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,17 +23,22 @@ public class IncomeResource {
 
     private static final String ENTITY_NAME = "income";
 
-    @Autowired
     private IncomeService incomeService;
 
+    public IncomeResource(IncomeService incomeService) {
+        this.incomeService = incomeService;
+    }
+
     @PostMapping("/incomes")
-    public ResponseEntity<Income> createIncome(@RequestBody Income income) {
+    public ResponseEntity<Income> createIncome(@RequestBody Income income) throws URISyntaxException {
         log.debug("REST request to save Income : {}", income);
         if(income.getId() != null) {
             throw new BadRequestAlertException("A new income cannot have already an Id!", ENTITY_NAME);
         }
         Income result = incomeService.save(income);
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.created(new URI("/api/incomes/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     @PutMapping("/incomes")

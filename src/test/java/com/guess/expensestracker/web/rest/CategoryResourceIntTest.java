@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.io.IOException;
 import java.util.List;
 
 import static com.guess.expensestracker.web.rest.TestUtil.createFormattingConversionService;
